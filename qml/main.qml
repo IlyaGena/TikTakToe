@@ -15,14 +15,12 @@ Window {
     visible: true
     title: qsTr("TikTakToe")
 
+    FontLoader {
+        id: fontLoader
+        source: "qrc:/fonts/cabana.ttf"
+    }
+
     Rectangle {
-
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#87cbff" }
-            GradientStop { position: 0.33; color: "#c8ffa8" }
-            GradientStop { position: 1.0; color: "#ffbdee" }
-        }
-
         Rectangle {
             id: recLable
 
@@ -41,12 +39,17 @@ Window {
         }
 
 
-        GameTable{
-            id: place
-            width: Math.round(valueForWidth/1.5) - (Math.round(valueForWidth/1.5)%3)
-            height: width
+//        GameTable{
+//            id: place
+//            width: Math.round(valueForWidth/1.5) - (Math.round(valueForWidth/1.5)%3)
+//            height: width
 
-            anchors.centerIn: parent
+//            anchors.centerIn: parent
+//        }
+
+        AskPage {
+            id: ask_X_O
+            anchors.fill: parent
         }
 
         onWidthChanged: {

@@ -8,6 +8,8 @@
 #define WIDTH_PLACE 3
 #define HEIGHT_PLACE 3
 
+#define ELEMENT_X "X"
+#define ELEMENT_O "O"
 
 class BackendTable : public QAbstractTableModel
 {
@@ -39,6 +41,14 @@ public:
      */
     QVariant data(const QModelIndex &index, int role) const override;
 
+    /*!
+     * \brief setData
+     * \param new_index
+     * \param value
+     * \param role
+     * \return
+     */
+    Q_INVOKABLE bool setData(const QModelIndex &new_index, const QVariant &value, int role) override;
 private:
     /*!
      * \brief getValue - получение значения из mm_table

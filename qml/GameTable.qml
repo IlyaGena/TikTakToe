@@ -24,7 +24,6 @@ Rectangle {
                 width: parent.width
                 height: parent.height
                 color: "#e1fae9"
-
                 border.color: "#000000"
             }
         }

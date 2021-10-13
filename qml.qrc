@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>qml/GameTable.qml</file>
         <file>qml/main.qml</file>
+        <file>qml/AskPage.qml</file>
+        <file>fonts/Golos-UI_Regular.ttf</file>
+        <file>qml/fon.png</file>
+        <file>fonts/cabana.ttf</file>
     </qresource>
 </RCC>
