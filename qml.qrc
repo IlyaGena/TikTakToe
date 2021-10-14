@@ -6,5 +6,6 @@
         <file>fonts/Golos-UI_Regular.ttf</file>
         <file>qml/fon.png</file>
         <file>fonts/cabana.ttf</file>
+        <file>qml/fonGame.png</file>
     </qresource>
 </RCC>

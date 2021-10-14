@@ -1,12 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 
-import Backend 1.1
-
 Rectangle {
-    BackendTable{
-        id: backend
-    }
 
     Component {
         id: delegateMode
@@ -31,7 +26,6 @@ Rectangle {
 
     TableView {
         id: table
-        model: backend
         delegate: delegateMode
 
         anchors.fill: parent
@@ -39,5 +33,9 @@ Rectangle {
 
     onWidthChanged: {
         table.forceLayout();
+    }
+    onVisibleChanged: {
+        if (visible)
+            table.model = backend
     }
 }

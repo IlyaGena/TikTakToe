@@ -5,12 +5,6 @@
 #include <QAbstractTableModel>
 #include <qqml.h>
 
-#define WIDTH_PLACE 3
-#define HEIGHT_PLACE 3
-
-#define ELEMENT_X "X"
-#define ELEMENT_O "O"
-
 class BackendTable : public QAbstractTableModel
 {
     Q_OBJECT
@@ -49,6 +43,15 @@ public:
      * \return
      */
     Q_INVOKABLE bool setData(const QModelIndex &new_index, const QVariant &value, int role) override;
+
+
+    Q_INVOKABLE bool startGame(quint16 count, QString select_elem);
+
+signals:
+    /*!
+     * \brief sig_startGame
+     */
+    void sig_StartGame();
 private:
     /*!
      * \brief getValue - получение значения из mm_table
@@ -59,6 +62,8 @@ private:
 
 private:
     QMap<quint8, QString> mm_table;         //!< список значений в таблице
+
+    quint16 mm_count;                       //!< количество ширина поля
 };
 
 #endif // BACKENDTABLE_H
