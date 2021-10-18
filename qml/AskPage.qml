@@ -8,7 +8,7 @@ Rectangle {
 
     Image {
         id: fon
-        source: "qrc:/qml/fon.png"
+        source: "qrc:/img/fon.png"
         anchors.fill: parent
     }
 
@@ -168,8 +168,8 @@ Rectangle {
             }
 
             anchors.top: text_change_count.bottom
-            anchors.left: ask_count.left
-            anchors.leftMargin: 30
+            anchors.right: ask_count.right
+            anchors.rightMargin: 30
         }
 
         Rectangle {
@@ -198,8 +198,8 @@ Rectangle {
             }
 
             anchors.top: text_change_count.bottom
-            anchors.right: ask_count.right
-            anchors.rightMargin: 30
+            anchors.left: ask_count.left
+            anchors.leftMargin: 30
         }
 
         Button {
@@ -243,9 +243,3 @@ Rectangle {
         anchors.bottom: ask_X_O.bottom
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

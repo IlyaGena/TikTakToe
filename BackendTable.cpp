@@ -2,7 +2,10 @@
 
 BackendTable::BackendTable(QObject *parent) :
     QAbstractTableModel(parent),
-    mm_count(3)
+    mm_algorithm(this),
+    mm_selectUser(CROSS),
+    mm_selectComp(ZERO),
+    mm_random()
 {
 
 }
@@ -14,12 +17,12 @@ BackendTable::~BackendTable()
 
 int BackendTable::rowCount(const QModelIndex&) const
 {
-    return mm_count;
+    return mm_countRow;
 }
 
 int BackendTable::columnCount(const QModelIndex&) const
 {
-    return mm_count;
+    return mm_countCol;
 }
 
 QVariant BackendTable::data(const QModelIndex &index, int role) const
@@ -38,32 +41,76 @@ QVariant BackendTable::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool BackendTable::setData(const QModelIndex &new_index, const QVariant &value, int role)
+bool BackendTable::setData(const QModelIndex &new_index)
 {
     // вычестяем идентификатор изменяемого индекса в таблице mm_table
-    quint16 new_index_list = new_index.row() * mm_count + new_index.column();
-//    mm_table[new_index_list] = value.toString();
-    // оповещаем GUI о изменении ячейки
-//    emit dataChanged(new_index, new_index);
-//     проверяем по вертикали и горизонтали
-//    checkVert(new_index, color);
-//    checkHor(new_index, color);
+    quint16 new_index_list = new_index.row() * mm_countCol + new_index.column();
+    mm_table[new_index_list] = mm_selectUser;
+
+    emit dataChanged(new_index, new_index);
+
+    step();
     return true;
 }
 
 bool BackendTable::startGame(quint16 count, QString select_elem)
 {
-    mm_count = count;
+    mm_countCol = count;
+    mm_countRow = count;
+    mm_count = mm_countCol * mm_countRow;
 
-    // сделать шаг
-    if (select_elem != "X")
-        return false;
+    for (quint32 i = 0; i < mm_count; i++)
+        mm_table.insert(i, "Null");
+
+    if (select_elem != CROSS)
+    {
+        mm_selectComp = CROSS;
+        mm_selectUser = ZERO;
+
+        mm_algorithm.setElem(CROSS);
+
+        quint32 firstStep = mm_random.bounded(mm_count);
+        mm_table[firstStep] = mm_selectComp;
+        QModelIndex changeIndex = getIndex(firstStep);
+        emit dataChanged(changeIndex, changeIndex);
+    }
 
     emit sig_StartGame();
     return true;
 }
+
+bool BackendTable::step()
+{
+    Move step = mm_algorithm.getIndex(mm_table, mm_selectComp);
+    qDebug() << "Index: " << step.index;
+    qDebug() << "Count: " << mm_algorithm.getcount();
+    mm_algorithm.resetCount();
+    mm_table[step.index] = mm_selectComp;
+    QModelIndex changeIndex = getIndex(step.index);
+    emit dataChanged(changeIndex, changeIndex);
+    return true;
+}
 QString BackendTable::getValue(const QModelIndex &index) const
 {
-    QString value = mm_table.value(index.row() * mm_count + index.column());
+    quint16 index_list = index.row() * mm_countCol + index.column();
+    QString value = mm_table.value(index_list);
     return value;
+}
+
+quint16 BackendTable::getIndexList(const QModelIndex &index) const
+{
+    quint16 index_list = index.row() * mm_countCol + index.column();
+    return index_list;
+}
+
+QModelIndex BackendTable::getIndex(quint16 index)
+{
+    quint16 col = index % mm_countRow;
+    quint16 row = index / mm_countRow;
+
+    qDebug() << "Index: " << index;
+    qDebug() << "Col: " << col;
+    qDebug() << "Row: " << row;
+
+    return this->index(row, col);
 }

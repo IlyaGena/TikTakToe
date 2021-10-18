@@ -20,6 +20,31 @@ Rectangle {
                 height: parent.height
                 color: "#e1fae9"
                 border.color: "#000000"
+
+                Image {
+                    height: parent.height
+                    width: parent.width
+
+                    source: getVal()
+
+                    function getVal()
+                    {
+                        if (display == "Null")
+                            return ""
+                        else if (display == "X")
+                            return "qrc:/img/cross.png"
+                        else if (display == "O")
+                            return "qrc:/img/zero.png"
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: {
+                    backend.setData(backend.index(row,column))
+                }
             }
         }
     }

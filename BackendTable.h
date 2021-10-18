@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QAbstractTableModel>
 #include <qqml.h>
+#include <QRandomGenerator>
+
+#include "Modules/MinMaxAlgorithm.h"
 
 class BackendTable : public QAbstractTableModel
 {
@@ -42,10 +45,12 @@ public:
      * \param role
      * \return
      */
-    Q_INVOKABLE bool setData(const QModelIndex &new_index, const QVariant &value, int role) override;
+    Q_INVOKABLE bool setData(const QModelIndex &new_index);
 
 
     Q_INVOKABLE bool startGame(quint16 count, QString select_elem);
+
+    Q_INVOKABLE bool step();
 
 signals:
     /*!
@@ -60,10 +65,19 @@ private:
      */
     QString getValue(const QModelIndex &index) const;
 
-private:
-    QMap<quint8, QString> mm_table;         //!< список значений в таблице
+    quint16 getIndexList(const QModelIndex &index) const;
 
-    quint16 mm_count;                       //!< количество ширина поля
+    QModelIndex getIndex(quint16 index);
+
+private:
+    QMap<quint16, QString> mm_table;        //!< список значений в таблице
+    quint16 mm_countCol;                    //!< ширина поля
+    quint16 mm_countRow;                    //!< высота поля
+    quint32 mm_count;                       //!< количество ячеек
+    MinMaxAlgorithm mm_algorithm;
+    QString mm_selectUser;
+    QString mm_selectComp;
+    QRandomGenerator mm_random;
 };
 
 #endif // BACKENDTABLE_H

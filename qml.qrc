@@ -4,8 +4,13 @@
         <file>qml/main.qml</file>
         <file>qml/AskPage.qml</file>
         <file>fonts/Golos-UI_Regular.ttf</file>
-        <file>qml/fon.png</file>
         <file>fonts/cabana.ttf</file>
-        <file>qml/fonGame.png</file>
+        <file>img/fonGame.png</file>
+        <file>img/fon.xcf</file>
+        <file>img/fon.png</file>
+        <file>img/cross.xcf</file>
+        <file>img/cross.png</file>
+        <file>img/zero.xcf</file>
+        <file>img/zero.png</file>
     </qresource>
 </RCC>

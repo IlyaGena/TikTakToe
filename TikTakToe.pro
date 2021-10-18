@@ -12,6 +12,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 SOURCES += \
         BackendTable.cpp \
+        Modules/MinMaxAlgorithm.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -28,4 +29,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    BackendTable.h
+    BackendTable.h \
+    Modules/MinMaxAlgorithm.h

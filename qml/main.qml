@@ -39,7 +39,7 @@ Window {
     Rectangle {
         Image {
             id: fonGame
-            source: "qrc:/qml/fonGame.png"
+            source: "qrc:/img/fonGame.png"
             anchors.fill: parent
         }
 
