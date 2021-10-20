@@ -49,6 +49,12 @@ bool BackendTable::setData(const QModelIndex &new_index)
 
     emit dataChanged(new_index, new_index);
 
+    if(mm_algorithm.checkResult(mm_table, mm_selectUser))
+    {
+        emit sig_EndGame();
+        return true;
+    }
+
     step();
     return true;
 }
@@ -58,6 +64,9 @@ bool BackendTable::startGame(quint16 count, QString select_elem)
     mm_countCol = count;
     mm_countRow = count;
     mm_count = mm_countCol * mm_countRow;
+
+    if (!mm_table.isEmpty())
+        newGame();
 
     for (quint32 i = 0; i < mm_count; i++)
         mm_table.insert(i, "Null");
@@ -81,6 +90,9 @@ bool BackendTable::startGame(quint16 count, QString select_elem)
 
 bool BackendTable::step()
 {
+    if (!mm_table.values().contains("Null"))
+        return false;
+
     Move step = mm_algorithm.getIndex(mm_table, mm_selectComp);
     qDebug() << "Index: " << step.index;
     qDebug() << "Count: " << mm_algorithm.getcount();
@@ -88,7 +100,27 @@ bool BackendTable::step()
     mm_table[step.index] = mm_selectComp;
     QModelIndex changeIndex = getIndex(step.index);
     emit dataChanged(changeIndex, changeIndex);
+
+    if(mm_algorithm.checkResult(mm_table, mm_selectComp))
+        emit sig_EndGame();
+
     return true;
+}
+
+void BackendTable::newGame()
+{
+    for (quint32 i = 0; i < mm_count; i++)
+        mm_table[i] = "Null";
+
+    emit dataChanged(this->index(0,0), this->index(mm_countRow, mm_countCol));
+
+    if (mm_selectComp == CROSS)
+    {
+        quint32 firstStep = mm_random.bounded(mm_count);
+        mm_table[firstStep] = mm_selectComp;
+        QModelIndex changeIndex = getIndex(firstStep);
+        emit dataChanged(changeIndex, changeIndex);
+    }
 }
 QString BackendTable::getValue(const QModelIndex &index) const
 {

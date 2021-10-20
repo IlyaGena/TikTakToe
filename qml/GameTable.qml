@@ -62,5 +62,7 @@ Rectangle {
     onVisibleChanged: {
         if (visible)
             table.model = backend
+        else
+            table.model = ""
     }
 }

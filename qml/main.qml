@@ -29,6 +29,14 @@ Window {
             rec_X.visible = true
             ask_X_O.visible = false
         }
+        function onSig_EndGame(){
+            place.visible = false
+            rec_O.visible = false
+            rec_X.visible = false
+            recEndGame.visible = true
+            rec_yes.visible = true
+            rec_no.visible = true
+        }
     }
 
     FontLoader {
@@ -113,6 +121,91 @@ Window {
             anchors.rightMargin: lable_O.font.pointSize
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 20
+        }
+
+        Rectangle {
+            id: recEndGame
+            width: textEndGame.width
+            height: textEndGame.height
+            color: "#00000000"
+            visible: false
+
+            Text {
+                id: textEndGame
+                font.pointSize: mainPage.width/10
+                font.family: fontLoader.name
+                text: qsTr("Игра окончена. \nХотите начать новую?")
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            anchors.centerIn: parent
+        }
+
+        Rectangle {
+            id: rec_yes
+            color: "#00000000"
+            width: lable_yes.width
+            height: lable_yes.height
+            visible: false
+
+            Text {
+                id: lable_yes
+                text: qsTr("Да")
+                font.family: fontLoader.name
+                font.pointSize: mainPage.width/10
+            }
+            MouseArea {
+                onClicked: {
+                    backend.newGame()
+
+                    place.visible = true
+                    rec_O.visible = true
+                    rec_X.visible = true
+                    recEndGame.visible = false
+                    rec_yes.visible = false
+                    rec_no.visible = false
+                }
+
+                anchors.fill: parent
+            }
+
+            anchors.left: parent.left
+            anchors.leftMargin: lable_yes.font.pointSize*2
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: lable_yes.font.pointSize*2
+        }
+
+        Rectangle {
+            id: rec_no
+            color: "#00000000"
+            width: lable_no.width
+            height: lable_no.height
+            visible: false
+
+            Text {
+                id: lable_no
+                text: qsTr("Нет")
+                font.family: fontLoader.name
+                font.pointSize: mainPage.width/10
+            }
+
+            MouseArea {
+                onClicked: {
+                    recEndGame.visible = false
+                    rec_no.visible = false
+                    rec_yes.visible = false
+                    ask_X_O.visible = true
+                }
+
+                anchors.fill: parent
+            }
+
+            anchors.right: parent.right
+            anchors.rightMargin: lable_no.font.pointSize*2
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: lable_no.font.pointSize*2
         }
 
         onWidthChanged: {

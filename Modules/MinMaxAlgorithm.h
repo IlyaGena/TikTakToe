@@ -30,6 +30,12 @@ public:
 
     void resetCount();
 
+    /*!
+     * \brief checkResult
+     * \return - возврат проверки поля
+     */
+    bool checkResult(QMap<quint16, QString> table, QString value);
+
 private:
     /*!
      * \brief checkEmpty
@@ -37,11 +43,6 @@ private:
      */
     QList<quint16> checkEmpty(QMap<quint16, QString> orig_table);
 
-    /*!
-     * \brief checkResult
-     * \return - возврат проверки поля
-     */
-    bool checkResult(QMap<quint16, QString> table, QString value);
 
 private:
     quint16 mm_count;

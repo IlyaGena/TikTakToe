@@ -52,11 +52,15 @@ public:
 
     Q_INVOKABLE bool step();
 
+    Q_INVOKABLE void newGame();
+
 signals:
     /*!
      * \brief sig_startGame
      */
     void sig_StartGame();
+
+    void sig_EndGame();
 private:
     /*!
      * \brief getValue - получение значения из mm_table
