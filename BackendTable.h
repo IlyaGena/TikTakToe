@@ -82,6 +82,8 @@ private:
     QString mm_selectUser;
     QString mm_selectComp;
     QRandomGenerator mm_random;
+
+    bool isComp;                            //!< признак игры с компьютером
 };
 
 #endif // BACKENDTABLE_H

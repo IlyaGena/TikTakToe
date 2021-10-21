@@ -43,6 +43,9 @@ QVariant BackendTable::data(const QModelIndex &index, int role) const
 
 bool BackendTable::setData(const QModelIndex &new_index)
 {
+    if (!isComp)
+        return false;
+
     // вычестяем идентификатор изменяемого индекса в таблице mm_table
     quint16 new_index_list = new_index.row() * mm_countCol + new_index.column();
     mm_table[new_index_list] = mm_selectUser;
@@ -50,6 +53,11 @@ bool BackendTable::setData(const QModelIndex &new_index)
     emit dataChanged(new_index, new_index);
 
     if(mm_algorithm.checkResult(mm_table, mm_selectUser))
+    {
+        emit sig_EndGame();
+        return true;
+    }
+    if (mm_selectUser == CROSS && !mm_table.values().contains("Null"))
     {
         emit sig_EndGame();
         return true;
@@ -64,6 +72,11 @@ bool BackendTable::startGame(quint16 count, QString select_elem)
     mm_countCol = count;
     mm_countRow = count;
     mm_count = mm_countCol * mm_countRow;
+
+    isComp = (count == 3);
+
+    if (!isComp)
+        return false;
 
     if (!mm_table.isEmpty())
         newGame();
@@ -90,6 +103,9 @@ bool BackendTable::startGame(quint16 count, QString select_elem)
 
 bool BackendTable::step()
 {
+    if (!isComp)
+        return false;
+
     if (!mm_table.values().contains("Null"))
         return false;
 
@@ -103,6 +119,12 @@ bool BackendTable::step()
 
     if(mm_algorithm.checkResult(mm_table, mm_selectComp))
         emit sig_EndGame();
+
+    if (mm_selectComp == CROSS && !mm_table.values().contains("Null"))
+    {
+        emit sig_EndGame();
+        return true;
+    }
 
     return true;
 }
